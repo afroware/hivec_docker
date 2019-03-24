@@ -1,8 +1,8 @@
 FROM ubuntu:14.04
  
-LABEL maintainer="Alankrit Srivastava <alankrit.srivastava256@webkul.com>"
+LABEL maintainer="Adel Lamallam <lamallam@afroware.com>"
 
-ARG user=hivec
+ARG user=c
 
 ##Update server and install lamp server
 RUN apt-get update \
@@ -26,7 +26,7 @@ RUN apt-get update \
     && useradd -m -s /bin/bash ${user} \
     && mkdir -p /home/${user}/www \
 ##Download Qloapps latest version
-    && cd /home/${user}/www && git clone https://github.com/webkul/hotelcommerce.git \
+    && cd /home/${user}/www && git clone https://github.com/afroware/hivec.git \
 ##change file permission and ownership
     && find /home/${user}/www -type f -exec chmod 644 {} \; \
     && find /home/${user}/www -type d -exec chmod 755 {} \; \
@@ -37,7 +37,7 @@ RUN apt-get update \
                 Require all granted  \n\
                 AllowOverride all \n\
                 </Directory>  ' >> /etc/apache2/apache2.conf \
-    && sed -i "s@/var/www/html@/home/${user}/www/hotelcommerce@g" /etc/apache2/sites-enabled/000-default.conf \
+    && sed -i "s@/var/www/html@/home/${user}/www@g" /etc/apache2/sites-enabled/000-default.conf \
 ##install supervisor and setup supervisord.conf file
     && apt-get install -y supervisor \
     && mkdir -p /var/log/supervisor
@@ -45,7 +45,7 @@ RUN apt-get update \
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY update.sh /etc/update.sh
 RUN chmod a+x /etc/update.sh 
-WORKDIR /home/${user}/www/hotelcommerce
+WORKDIR /home/${user}/www
 
 EXPOSE 3306 80 443
 

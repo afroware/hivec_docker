@@ -3,10 +3,10 @@
 set -u
 
 ##set user password
-user=qloapps
+user=hivec
 
 echo -e "$USER_PASSWORD\n$USER_PASSWORD" | passwd $user
-echo "User qloapps password updated"
+echo "User hivec password updated"
 
 ##set mysql password
 
