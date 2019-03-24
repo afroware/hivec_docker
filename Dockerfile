@@ -6,7 +6,7 @@ ARG user=afroware
 
 ##Update server and install lamp server
 RUN apt-get update \
-	&& apt-get install dialog apt-utils -y
+	&& apt-get install dialog apt-utils -y \
     && apt-get -y install apache2 \
     && a2enmod rewrite \
     && a2enmod headers \
