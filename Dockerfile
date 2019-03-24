@@ -2,7 +2,7 @@ FROM ubuntu:14.04
  
 LABEL maintainer="Alankrit Srivastava <alankrit.srivastava256@webkul.com>"
 
-ARG user=qloapps
+ARG user=hivec
 
 ##Update server and install lamp server
 RUN apt-get update \
