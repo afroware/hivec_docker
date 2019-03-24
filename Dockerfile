@@ -2,7 +2,7 @@ FROM ubuntu:14.04
  
 LABEL maintainer="Adel Lamallam <lamallam@afroware.com>"
 
-ARG user=c
+ARG user=afroware
 
 ##Update server and install lamp server
 RUN apt-get update \
@@ -37,7 +37,7 @@ RUN apt-get update \
                 Require all granted  \n\
                 AllowOverride all \n\
                 </Directory>  ' >> /etc/apache2/apache2.conf \
-    && sed -i "s@/var/www/html@/home/${user}/www@g" /etc/apache2/sites-enabled/000-default.conf \
+    && sed -i "s@/var/www/html@/home/${user}/www/hivec@g" /etc/apache2/sites-enabled/000-default.conf \
 ##install supervisor and setup supervisord.conf file
     && apt-get install -y supervisor \
     && mkdir -p /var/log/supervisor
@@ -45,7 +45,7 @@ RUN apt-get update \
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY update.sh /etc/update.sh
 RUN chmod a+x /etc/update.sh 
-WORKDIR /home/${user}/www
+WORKDIR /home/${user}/www/hivec
 
 EXPOSE 3306 80 443
 
