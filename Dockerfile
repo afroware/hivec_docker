@@ -27,7 +27,7 @@ RUN apt-get update \
     && useradd -m -s /bin/bash ${user} \
     && mkdir -p /home/${user}/www \
 ##Download Qloapps latest version
-    && cd /home/${user}/www && git clone https://github.com/afroware/hivec.git \
+    && cd /home/${user}/www && git clone --branch v1.2.0 https://github.com/afroware/hivec.git \
 ##change file permission and ownership
     && find /home/${user}/www -type f -exec chmod 644 {} \; \
     && find /home/${user}/www -type d -exec chmod 755 {} \; \
