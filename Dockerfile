@@ -11,9 +11,9 @@ ENV WEBMASTER_MAIL lamallam@afroware
 
 
 # Manually set the apache environment variables in order to get apache to work immediately.
-RUN echo $WEBMASTER_MAIL > /etc/apache2/envvars/WEBMASTER_MAIL && \
-    echo $DOMAINS > /etc/apache2/envvars/DOMAINS && \
-    echo $LETSENCRYPT_HOME > /etc/apache2/envvars/LETSENCRYPT_HOME
+RUN echo $WEBMASTER_MAIL > /etc/environment/WEBMASTER_MAIL && \
+    echo $DOMAINS > /etc/environment/DOMAINS && \
+    echo $LETSENCRYPT_HOME > /etc/environment/LETSENCRYPT_HOME
 
 CMD ["/sbin/my_init"]
 
