@@ -40,11 +40,11 @@ RUN apt-get update \
 	# configure apache
 	ADD config/mods-available/proxy_html.conf /etc/apache2/mods-available/
 	ADD config/conf-available/security.conf /etc/apache2/conf-available/
-	RUN echo "ServerName dardiafa.ma" >> /etc/apache2/conf-enabled/hostname.conf && \
-		a2enmod ssl headers proxy proxy_http proxy_html xml2enc rewrite usertrack remoteip && \
-		a2dissite 000-default default-ssl && \
-		mkdir -p /var/lock/apache2 && \
-		mkdir -p /var/run/apache2
+	RUN echo "ServerName dardiafa.ma" >> /etc/apache2/conf-enabled/hostname.conf \
+		&& a2enmod ssl headers proxy proxy_http proxy_html xml2enc rewrite usertrack remoteip \
+		&& a2dissite 000-default default-ssl \
+		&& mkdir -p /var/lock/apache2 \
+		&& mkdir -p /var/run/apache2
 
 	# configure runit
 	RUN mkdir -p /etc/service/apache
