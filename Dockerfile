@@ -18,7 +18,6 @@ RUN apt-get update \
 	&& a2enmod usertrack \
 	&& a2enmod remoteip \
     && export LANG=en_US.UTF-8 \
-    && apt-get update \
     && apt-get install -y software-properties-common \
     && apt-get install -y language-pack-en-base \
     && LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php \
@@ -32,6 +31,7 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 	
 # configure apache
+ADD config/sites-available/*.conf /etc/apache2/sites-available/
 ADD config/mods-available/proxy_html.conf /etc/apache2/mods-available/
 ADD config/conf-available/security.conf /etc/apache2/conf-available/
 RUN echo "ServerName dardiafa.ma" >> /etc/apache2/conf-enabled/hostname.conf \	
@@ -65,8 +65,8 @@ RUN sed -i -e"s/^memory_limit\s*=\s*128M/memory_limit = 512M/" /etc/php/5.6/apac
 				Require all granted  \n\
 				AllowOverride all \n\
 				</Directory>  ' >> /etc/apache2/apache2.conf \
-	&& sed -i "s@/var/www/html@/home/${user}/www/hivec@g" /etc/apache2/sites-enabled/000-default \
-	&& sed -i "s@/var/www/html@/home/${user}/www/hivec@g" /etc/apache2/sites-enabled/default-ssl \
+	&& sed -i "s@/var/www/html@/home/${user}/www/hivec@g" /etc/apache2/sites-enabled/000-default.conf \
+	&& sed -i "s@/var/www/html@/home/${user}/www/hivec@g" /etc/apache2/sites-enabled/default-ssl.confs \
 ##install supervisor and setup supervisord.conf file
 	&& apt-get install -y supervisor \
 	&& mkdir -p /var/log/supervisor \
