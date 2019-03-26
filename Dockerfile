@@ -26,7 +26,6 @@ RUN apt-get update \
 	&& add-apt-repository ppa:certbot/certbot \
 	&& apt-get -y update \
     && apt-get install -q -y python-certbot-apache \
-    && apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 	
 # configure apache
@@ -70,7 +69,8 @@ RUN  apt-get -y install php5.6 php5.6-curl php5.6-intl php5.6-gd php5.6-dom php5
 	&& sed -i "s@/var/www/html@/home/${user}/www/hivec@g" /etc/apache2/sites-enabled/default-ssl.conf \
 ##install supervisor and setup supervisord.conf file
 	&& apt-get install -y supervisor \
-	&& mkdir -p /var/log/supervisor
+	&& mkdir -p /var/log/supervisor \
+	&& apt-get clean \
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY update.sh /etc/update.sh
