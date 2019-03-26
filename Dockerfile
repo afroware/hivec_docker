@@ -24,6 +24,8 @@ RUN apt-get update \
     && LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php \
     && apt-get update \
 	&& apt-get install -q -y  php5.6 php5.6-curl php5.6-intl php5.6-gd php5.6-dom php5.6-mcrypt php5.6-iconv php5.6-xsl php5.6-mbstring php5.6-ctype   php5.6-zip php5.6-pdo php5.6-xml php5.6-bz2 php5.6-calendar php5.6-exif php5.6-fileinfo php5.6-json php5.6-mysqli php5.6-mysql php5.6-posix php5.6-tokenizer php5.6-xmlwriter php5.6-xmlreader php5.6-phar php5.6-soap php5.6-mysql php5.6-fpm php5.6-bcmath libapache2-mod-php5.6 \
+	&& DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server-5.6 \
+	&& apt-get install -y git nano curl openssh-server \
 	&& add-apt-repository ppa:certbot/certbot \
 	&& apt-get -y update \
     && apt-get install -q -y python-certbot-apache \
@@ -48,8 +50,6 @@ RUN sed -i -e"s/^memory_limit\s*=\s*128M/memory_limit = 512M/" /etc/php/5.6/apac
 	&& echo "date.timezone = Asia/Kolkata" >> /etc/php/5.6/apache2/php.ini \
 	&& sed -i -e"s/^upload_max_filesize\s*=\s*2M/upload_max_filesize = 16M/" /etc/php/5.6/apache2/php.ini \
 	&& sed -i -e"s/^max_execution_time\s*=\s*30/max_execution_time = 500/" /etc/php/5.6/apache2/php.ini \
-	&& DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server-5.6 \
-	&& apt-get install -y git nano curl openssh-server \
 	##setup non root user
 	&& useradd -m -s /bin/bash ${user} \
 	&& mkdir -p /home/${user}/www \
