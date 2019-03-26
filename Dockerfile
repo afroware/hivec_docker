@@ -7,9 +7,16 @@ ARG user=afroware
 ##Update server and install lamp server
 RUN apt-get update \
 	&& apt-get install dialog apt-utils -y \
-    && apt-get -y install apache2 \
+    && apt-get install -q -y curl openssl apache2 \
     && a2enmod rewrite \
     && a2enmod headers \
+	&& a2enmod ssl \
+	&& a2enmod proxy \
+	&& a2enmod proxy_http \
+	&& a2enmod proxy_html \
+	&& a2enmod xml2enc \
+	&& a2enmod usertrack \
+	&& a2enmod remoteip \
     && export LANG=en_US.UTF-8 \
     && apt-get update \
     && apt-get install -y software-properties-common \
@@ -20,15 +27,12 @@ RUN apt-get update \
 	&& apt-get -y update \
     && apt-get install -q -y python-certbot-apache \
     && apt-get clean \
-	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-	
-	
+	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 	
 # configure apache
 ADD config/mods-available/proxy_html.conf /etc/apache2/mods-available/
 ADD config/conf-available/security.conf /etc/apache2/conf-available/
-RUN echo "ServerName dardiafa.ma" >> /etc/apache2/conf-enabled/hostname.conf \
-	&& a2enmod ssl headers proxy proxy_http proxy_html xml2enc rewrite usertrack remoteip \
+RUN echo "ServerName dardiafa.ma" >> /etc/apache2/conf-enabled/hostname.conf \	
 	&& a2dissite 000-default default-ssl \
 	&& mkdir -p /var/lock/apache2 \
 	&& mkdir -p /var/run/apache2
