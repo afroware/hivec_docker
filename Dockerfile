@@ -4,19 +4,6 @@ LABEL maintainer="Adel Lamallam <lamallam@afroware.com>"
 
 ARG user=afroware
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV LETSENCRYPT_HOME /etc/letsencrypt
-ENV DOMAINS dardiafa.ma
-ENV WEBMASTER_MAIL lamallam@afroware
-
-
-# Manually set the apache environment variables in order to get apache to work immediately.
-RUN export 'WEBMASTER_MAIL = $WEBMASTER_MAIL' && \
-    export 'DOMAINS = $DOMAINS' && \
-    export 'LETSENCRYPT_HOME = LETSENCRYPT_HOME'
-
-CMD ["/sbin/my_init"]
-
 ##Update server and install lamp server
 RUN apt-get update \
 	&& apt-get install dialog apt-utils -y \
