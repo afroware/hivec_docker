@@ -4,6 +4,12 @@ LABEL maintainer="Adel Lamallam <lamallam@afroware.com>"
 
 ARG user=afroware
 
+
+ENV DEBIAN_FRONTEND noninteractive
+ENV LETSENCRYPT_HOME /etc/letsencrypt
+ENV DOMAINS ""
+ENV WEBMASTER_MAIL ""
+
 ##Update server and install lamp server
 RUN apt-get update \
 	&& apt-get install dialog apt-utils -y \
