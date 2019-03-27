@@ -63,8 +63,6 @@ RUN sed -i -e"s/^memory_limit\s*=\s*128M/memory_limit = 512M/" /etc/php/5.6/apac
 				Require all granted  \n\
 				AllowOverride all \n\
 				</Directory>  ' >> /etc/apache2/apache2.conf \
-	&& sed -i "s@/var/www/html@/home/${user}/www/hivec@g" /etc/apache2/sites-enabled/000-default.conf \
-	&& sed -i "s@/var/www/html@/home/${user}/www/hivec@g" /etc/apache2/sites-enabled/default-ssl.conf \
 	&& a2dissite 000-default default-ssl \
 ##install supervisor and setup supervisord.conf file
 	&& apt-get install -y supervisor \
