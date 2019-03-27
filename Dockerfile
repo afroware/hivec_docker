@@ -25,6 +25,8 @@ RUN apt-get update \
 	&& apt-get install -q -y  php5.6 php5.6-curl php5.6-intl php5.6-gd php5.6-dom php5.6-mcrypt php5.6-iconv php5.6-xsl php5.6-mbstring php5.6-ctype   php5.6-zip php5.6-pdo php5.6-xml php5.6-bz2 php5.6-calendar php5.6-exif php5.6-fileinfo php5.6-json php5.6-mysqli php5.6-mysql php5.6-posix php5.6-tokenizer php5.6-xmlwriter php5.6-xmlreader php5.6-phar php5.6-soap php5.6-mysql php5.6-fpm php5.6-bcmath libapache2-mod-php5.6 \
 	&& DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server-5.6 \
 	&& apt-get install -y git nano curl openssh-server \
+	&& apt-get install -y supervisor \
+	&& apt-get clean \
 	&& add-apt-repository ppa:certbot/certbot \
 	&& apt-get -y update \
     && apt-get install -q -y python-certbot-apache \
@@ -64,11 +66,9 @@ RUN sed -i -e"s/^memory_limit\s*=\s*128M/memory_limit = 512M/" /etc/php/5.6/apac
 				AllowOverride all \n\
 				</Directory>  ' >> /etc/apache2/apache2.conf \
 	&& a2dissite 000-default default-ssl \
-##install supervisor and setup supervisord.conf file
-	&& apt-get install -y supervisor \
+	##install supervisor and setup supervisord.conf file
 	&& mkdir -p /var/log/supervisor \
-	&& apt-get clean \
-
+	
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY update.sh /etc/update.sh
 RUN chmod a+x /etc/update.sh 
