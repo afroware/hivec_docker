@@ -45,12 +45,7 @@ RUN echo "ServerName dardiafa.ma" >> /etc/apache2/conf-enabled/hostname.conf \
 	&& mkdir -p /var/lock/apache2 \
 	&& mkdir -p /var/run/apache2
 
-# configure runit
-RUN mkdir -p /etc/service/apache
-ADD config/scripts/run_apache.sh /etc/service/apache/run
-ADD config/scripts/init_letsencrypt.sh /etc/my_init.d/
-ADD config/scripts/run_letsencrypt.sh /run_letsencrypt.sh
-RUN chmod +x /*.sh && chmod +x /etc/my_init.d/*.sh && chmod +x /etc/service/apache/*
+
 
 RUN sed -i -e"s/^memory_limit\s*=\s*128M/memory_limit = 512M/" /etc/php/5.6/apache2/php.ini \
 	&& echo "date.timezone = Asia/Kolkata" >> /etc/php/5.6/apache2/php.ini \
@@ -71,17 +66,15 @@ RUN sed -i -e"s/^memory_limit\s*=\s*128M/memory_limit = 512M/" /etc/php/5.6/apac
 				Require all granted  \n\
 				AllowOverride all \n\
 				</Directory>  ' >> /etc/apache2/apache2.conf \
-	&& a2dissite 000-default default-ssl \
 	##install supervisor and setup supervisord.conf file
 	&& mkdir -p /var/log/supervisor \
 	
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY update.sh /etc/update.sh
-RUN chmod a+x /etc/update.sh 
+ADD config/scripts/run_letsencrypt.sh /etc/run_letsencrypt.sh
+RUN chmod a+x /etc/update.sh && chmod a+x /etc/run_letsencrypt.sh
 WORKDIR /home/${user}/www/hivec
 
 EXPOSE 3306 80 443
-
-VOLUME [ "$LETSENCRYPT_HOME", "/etc/apache2/sites-available", "/var/log/apache2" ]
 
 CMD ["/usr/bin/supervisord"] 
